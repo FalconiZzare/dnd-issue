@@ -68,8 +68,8 @@ const DnDLayout = () => {
         <SortableContext items={categories} strategy={rectSortingStrategy}>
           <div className={"grid grid-cols-4 w-full place-items-center gap-x-4 gap-y-6"}>
             {
-              categories.map((category, index) => (
-                <DraggableCategory key={index} category={category} isDragOverlay={false} />
+              categories.map((category) => (
+                <DraggableCategory key={category.id} category={category} isDragOverlay={false} />
               ))
             }
           </div>
