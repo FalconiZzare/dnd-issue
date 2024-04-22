@@ -56,32 +56,45 @@ const DnDLayout = () => {
     setActiveId(null);
   };
 
+  const handleDragOver = (event) => {
+    const { active, over } = event;
+
+    if (!over) return;
+    if (active.id === over?.id) return;
+
+    //more things to be written but the layouts should not behave like this as I've seen in the examples
+  }
+
   return (
     <div className={"flex w-full items-center justify-center px-2 py-8"}>
       <DndContext
         onDragStart={handleCatDragStart}
         onDragEnd={handleCatDragEnd}
         onDragCancel={handleCatDragCancel}
+        // onDragOver={handleDragOver}
         sensors={sensors}
         collisionDetection={closestCenter}
       >
-        <SortableContext items={categories} strategy={rectSortingStrategy}>
-          <div className={"grid grid-cols-4 w-full place-items-center gap-x-4 gap-y-6"}>
+        <div className={"grid grid-cols-4 w-full place-items-center gap-x-4 gap-y-6"}>
+          <SortableContext items={categories} strategy={rectSortingStrategy}>
+
             {
               categories.map((category) => (
                 <DraggableCategory key={category.id} category={category} isDragOverlay={false} />
               ))
             }
-          </div>
-        </SortableContext>
-        <DragOverlay adjustScale>
-          {activeId ? (
-            <DraggableCategory isDragOverlay category={categories[getIndex(activeId)]}/>
-          ) : null}
-        </DragOverlay>
-      </DndContext>
-    </div>
-  );
+
+      </SortableContext>
+      <DragOverlay adjustScale dropAnimation={{ duration: 400 }}>
+        {activeId ? (
+          <DraggableCategory isDragOverlay category={categories[getIndex(activeId)]} />
+        ) : null}
+      </DragOverlay>
+        </div>
+    </DndContext>
+</div>
+)
+  ;
 };
 
 export default DnDLayout;
